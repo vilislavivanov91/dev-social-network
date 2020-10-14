@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const cors = require('cors');
 
 const app = express();
 
@@ -12,19 +11,18 @@ const profileRoute = require('./routes/api/profile');
 const postRoute = require('./routes/api/post');
 
 // Connect to MongoDB
-mongoose.connect(mongoURI, err=> {
-  if(err) {
-    return console.log(err)
+mongoose.connect(mongoURI, (err) => {
+  if (err) {
+    return console.log(err);
   }
   console.log('mongo connected');
 
   // Connect Middlewares
-  app.use(cors());
-  app.use(express.json())
-  app.use(express.urlencoded())
+  app.use(express.json());
+  app.use(express.urlencoded());
 
   // Configure passport
-  app.use(passport.initialize())
+  app.use(passport.initialize());
   require('./config/passportConfig')(passport);
 
   // Connect Routes
@@ -34,5 +32,5 @@ mongoose.connect(mongoURI, err=> {
 
   app.listen(port, () => {
     console.log('app up and running at port' + port);
-  })
-})
+  });
+});
