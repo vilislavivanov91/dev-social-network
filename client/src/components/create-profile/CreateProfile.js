@@ -82,7 +82,6 @@ class CreateProfile extends Component {
   }
 
   onChange = (e) => {
-    console.log('on change?');
     this.setState({ [e.target.name]: e.target.value });
   };
 

@@ -24,7 +24,12 @@ class Navigation extends Component {
           </Link>
         </li>
         <li className="nav-item">
-          <a href="/login" onClick={this.onLogoutClick} className="nav-link">
+          <Link className="nav-link" to="/posts">
+            Posts
+          </Link>
+        </li>
+        <li className="nav-item">
+          <a href="/logout" onClick={this.onLogoutClick} className="nav-link">
             {/* <img
               className="rounded-circle"
               // src={user.email}

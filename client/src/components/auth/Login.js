@@ -16,6 +16,7 @@ class Login extends Component {
   static getDerivedStateFromProps(props, state) {
     if (props.errors !== state.errors) {
       return {
+        // ...state,
         errors: props.errors,
       };
     }
@@ -41,13 +42,13 @@ class Login extends Component {
 
   componentDidMount() {
     if (this.props.auth.isAuth) {
-      console.log('Is auth and try to render Login');
       this.props.history.push('/dashboard');
     }
   }
 
   render() {
     const { email, password } = this.state.errors;
+    // const { email, password } = this.props.errors;
 
     return (
       <div className="login">

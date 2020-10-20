@@ -9,8 +9,6 @@ import {
 } from './types';
 
 export const getProfile = () => (dispatch) => {
-  console.log(2);
-
   dispatch({ type: LOADING_PROFILE });
   return axios
     .get('/api/profile')
