@@ -6,3 +6,5 @@ export const LOADING_PROFILE = 'LOADING_PROFILE';
 export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
 export const LOADING_POSTS = 'LOADING_POSTS';
+export const LOADING_POSTS_FINISH = 'LOADING_POSTS_FINISH';
+export const CREATE_POST = 'CREATE_POST';

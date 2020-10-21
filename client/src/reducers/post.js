@@ -1,4 +1,10 @@
-import { SET_POST, SET_POSTS, LOADING_POSTS } from '../actions/types';
+import {
+  SET_POST,
+  SET_POSTS,
+  LOADING_POSTS,
+  LOADING_POSTS_FINISH,
+  CREATE_POST,
+} from '../actions/types';
 
 const initialState = {
   post: {},
@@ -26,6 +32,19 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+      };
+    }
+    case CREATE_POST: {
+      return {
+        ...state,
+        loading: false,
+        posts: [action.payload, ...state.posts],
+      };
+    }
+    case LOADING_POSTS_FINISH: {
+      return {
+        ...state,
+        loading: false,
       };
     }
     default:

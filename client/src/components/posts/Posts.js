@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Spinner from '../common/Spinner';
 import PostItem from './PostItem';
+import PostForm from './PostForm';
 import { getAllPosts } from '../../actions/post';
 
 class Posts extends Component {
@@ -23,7 +24,12 @@ class Posts extends Component {
       ));
     }
 
-    return <div>{dispayPosts}</div>;
+    return (
+      <div>
+        <PostForm />
+        {dispayPosts}
+      </div>
+    );
   }
 }
 
