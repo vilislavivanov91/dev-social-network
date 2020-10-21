@@ -11,6 +11,7 @@ module.exports = (req, res) => {
   const postData = {
     text: req.body.text,
     user: req.user.id,
+    handle: req.user.handle,
     userEmail: req.user.email,
     likes: [],
     comments: [],
