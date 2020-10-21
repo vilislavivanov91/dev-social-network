@@ -4,6 +4,7 @@ import {
   LOADING_POSTS,
   LOADING_POSTS_FINISH,
   CREATE_POST,
+  SET_SINGLE_POST,
 } from '../actions/types';
 
 const initialState = {
@@ -25,6 +26,13 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.payload,
+        loading: false,
+      };
+    }
+    case SET_SINGLE_POST: {
+      return {
+        ...state,
+        post: action.payload,
         loading: false,
       };
     }

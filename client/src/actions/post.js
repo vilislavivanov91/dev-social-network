@@ -6,6 +6,7 @@ import {
   SET_ERRORS,
   CREATE_POST,
   LOADING_POSTS_FINISH,
+  SET_SINGLE_POST,
 } from './types';
 
 export const getAllPosts = () => {
@@ -50,6 +51,22 @@ export const createPost = (text) => {
       });
   };
 };
+
+export const getSinglePost = (postId) => {
+  return (dispatch) => {
+    dispatch({ type: LOADING_POSTS });
+
+    axios
+      .get(`/api/post/${postId}`)
+      .then((response) => dispatch(setSinglePost(response.data)))
+      .catch((err) => dispatch(setSinglePost({})));
+  };
+};
+
+export const setSinglePost = (post) => ({
+  type: SET_SINGLE_POST,
+  payload: post,
+});
 
 export const addPost = (post) => {
   return {

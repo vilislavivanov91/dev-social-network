@@ -11,6 +11,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import Posts from './components/posts/Posts';
+import Post from './components/posts/Post';
 import CreateProfile from './components/create-profile/CreateProfile';
 import AddExperience from './components/add-credentials/AddExperience';
 import AddEducation from './components/add-credentials/AddEducation';
@@ -50,6 +51,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
               <Route path="/profile/:handle" component={Profile} />
+              <Route path="/post/:postId" component={Post} />
               <Route path="/profiles" component={Profiles} />
               <PrivateRoute path="/dashboard" component={Dashboard} />
               <PrivateRoute path="/posts" component={Posts} />
