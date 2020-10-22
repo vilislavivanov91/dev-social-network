@@ -9,3 +9,4 @@ export const LOADING_POSTS = 'LOADING_POSTS';
 export const LOADING_POSTS_FINISH = 'LOADING_POSTS_FINISH';
 export const CREATE_POST = 'CREATE_POST';
 export const SET_SINGLE_POST = 'SET_SINGLE_POST';
+export const DELETE_POST = 'DELETE_POST';

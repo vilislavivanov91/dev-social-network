@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 
 import Spinner from '../common/Spinner';
-import { getSinglePost } from '../../actions/post';
+import PostActions from './PostActions';
+import { getSinglePost, deletePost } from '../../actions/post';
 
 class Post extends Component {
+  state = {
+    isUserAuthourOfPost: false,
+  };
   componentDidMount() {
     if (!this.props.match.params.postId) {
       this.props.history.push('/');
@@ -14,6 +19,24 @@ class Post extends Component {
     const postId = this.props.match.params.postId;
     this.props.getSinglePost(postId);
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.currentUserId && props.postCreatedByUser) {
+      return {
+        ...state,
+        isUserAuthourOfPost: props.postCreatedByUser === props.currentUserId,
+      };
+    }
+    return null;
+  }
+
+  addComment = () => {};
+
+  deletePost = () => {
+    if (this.state.isUserAuthourOfPost) {
+      this.props.deletePost(this.props.post._id, this.props.history);
+    }
+  };
 
   render() {
     let dispayPost;
@@ -31,6 +54,11 @@ class Post extends Component {
             Created at{' '}
             <Moment data={this.props.post.date} format="DD/MM/YYYY" />
           </p>
+          <PostActions
+            isAuthor={this.state.isUserAuthourOfPost}
+            onAddCommentClick={this.addComment}
+            onDeleteClick={this.deletePost}
+          />
           <hr />
         </div>
       );
@@ -43,6 +71,10 @@ class Post extends Component {
 const mapStateToProps = (state) => ({
   loading: state.post.loading,
   post: state.post.post,
+  currentUserId: state.auth.user.id,
+  postCreatedByUser: state.post.post.user,
 });
 
-export default connect(mapStateToProps, { getSinglePost })(Post);
+export default connect(mapStateToProps, { getSinglePost, deletePost })(
+  withRouter(Post)
+);

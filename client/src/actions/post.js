@@ -7,6 +7,7 @@ import {
   CREATE_POST,
   LOADING_POSTS_FINISH,
   SET_SINGLE_POST,
+  DELETE_POST,
 } from './types';
 
 export const getAllPosts = () => {
@@ -60,6 +61,27 @@ export const getSinglePost = (postId) => {
       .get(`/api/post/${postId}`)
       .then((response) => dispatch(setSinglePost(response.data)))
       .catch((err) => dispatch(setSinglePost({})));
+  };
+};
+
+export const deletePost = (postId, history) => {
+  return (dispatch) => {
+    dispatch({ type: LOADING_POSTS });
+
+    axios
+      .delete(`/api/post/${postId}`)
+      .then((response) => {
+        dispatch(setSinglePost({}));
+        dispatch({
+          type: DELETE_POST,
+          payload: postId,
+        });
+        history.push('/posts');
+      })
+      .catch((err) => {
+        dispatch({ type: LOADING_POSTS_FINISH });
+        dispatch({ type: SET_ERRORS, payload: err });
+      });
   };
 };
 

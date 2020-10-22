@@ -5,6 +5,7 @@ import {
   LOADING_POSTS_FINISH,
   CREATE_POST,
   SET_SINGLE_POST,
+  DELETE_POST,
 } from '../actions/types';
 
 const initialState = {
@@ -47,6 +48,14 @@ const postReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         posts: [action.payload, ...state.posts],
+      };
+    }
+    case DELETE_POST: {
+      const posts = state.posts.filter((post) => post._id !== action.payload);
+      return {
+        ...state,
+        loading: false,
+        posts,
       };
     }
     case LOADING_POSTS_FINISH: {
