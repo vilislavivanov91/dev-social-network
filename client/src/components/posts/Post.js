@@ -5,11 +5,14 @@ import Moment from 'react-moment';
 
 import Spinner from '../common/Spinner';
 import PostActions from './PostActions';
+import CommentForm from '../comment/CommentForm';
+import CommentList from '../comment/CommentList';
 import { getSinglePost, deletePost } from '../../actions/post';
 
 class Post extends Component {
   state = {
     isUserAuthourOfPost: false,
+    showCommentForm: false,
   };
   componentDidMount() {
     if (!this.props.match.params.postId) {
@@ -30,7 +33,11 @@ class Post extends Component {
     return null;
   }
 
-  addComment = () => {};
+  toggleShowCommentForm = () => {
+    this.setState((state) => ({
+      showCommentForm: !state.showCommentForm,
+    }));
+  };
 
   deletePost = () => {
     if (this.state.isUserAuthourOfPost) {
@@ -54,11 +61,13 @@ class Post extends Component {
             Created at{' '}
             <Moment data={this.props.post.date} format="DD/MM/YYYY" />
           </p>
+          <CommentList comments={this.props.post.comments} />
           <PostActions
             isAuthor={this.state.isUserAuthourOfPost}
-            onAddCommentClick={this.addComment}
+            onAddCommentClick={this.toggleShowCommentForm}
             onDeleteClick={this.deletePost}
           />
+          {this.state.showCommentForm && <CommentForm />}
           <hr />
         </div>
       );

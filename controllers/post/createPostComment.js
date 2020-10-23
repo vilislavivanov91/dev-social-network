@@ -24,10 +24,10 @@ module.exports = (req, res) => {
 
       post.comments.unshift(commentData);
 
-      return post.save();
+      post.save().then((post) => {
+        res.json(post);
+      });
     })
-    .then((post) => {
-      res.json(post);
-    })
+
     .catch((err) => res.status(404).json({ noposts: 'No posts found' }));
 };

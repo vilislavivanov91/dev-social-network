@@ -3,11 +3,14 @@ import {
   SET_POST,
   SET_POSTS,
   LOADING_POSTS,
+  LOADING_POSTS_FINISH,
+  LOADING_COMMENT,
+  LOADING_COMMENT_FINISH,
   SET_ERRORS,
   CREATE_POST,
-  LOADING_POSTS_FINISH,
   SET_SINGLE_POST,
   DELETE_POST,
+  ADD_COMMENT,
 } from './types';
 
 export const getAllPosts = () => {
@@ -77,6 +80,22 @@ export const deletePost = (postId, history) => {
           payload: postId,
         });
         history.push('/posts');
+      })
+      .catch((err) => {
+        dispatch({ type: LOADING_POSTS_FINISH });
+        dispatch({ type: SET_ERRORS, payload: err });
+      });
+  };
+};
+
+export const addComment = (commentData, postId) => {
+  return (dispatch) => {
+    dispatch({ type: LOADING_POSTS });
+
+    axios
+      .post(`/api/post/comment/${postId}`, commentData)
+      .then((response) => {
+        dispatch(setSinglePost(response.data));
       })
       .catch((err) => {
         dispatch({ type: LOADING_POSTS_FINISH });
