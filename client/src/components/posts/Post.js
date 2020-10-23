@@ -18,6 +18,7 @@ class Post extends Component {
   state = {
     isUserAuthourOfPost: false,
     showCommentForm: false,
+    errors: null,
   };
   componentDidMount() {
     if (!this.props.match.params.postId) {
@@ -29,11 +30,22 @@ class Post extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.currentUserId && props.postCreatedByUser) {
+    // Check if there is errors in props and if they are different from current errors in state
+    if (props.errors !== state.errors || Object.keys(props.errors).length > 0) {
       return {
         ...state,
-        isUserAuthourOfPost: props.postCreatedByUser === props.currentUserId,
+        errors: props.errors,
       };
+    }
+    if (props.currentUserId && props.postCreatedByUser) {
+      const isUserAuthourOfPost =
+        props.postCreatedByUser === props.currentUserId;
+      // Check if current value of isUserAuthorOfPost is different then the current props state
+      if (isUserAuthourOfPost !== state.isUserAuthourOfPost)
+        return {
+          ...state,
+          isUserAuthourOfPost,
+        };
     }
     return null;
   }
@@ -73,6 +85,9 @@ class Post extends Component {
             <Moment data={this.props.post.date} format="DD/MM/YYYY" />
           </p>
           <p>Likes: {this.props.post.likes.length}</p>
+          {Object.keys(this.state.errors).length > 0 && (
+            <p>Error: {this.state.errors.error}</p>
+          )}
           <CommentList comments={this.props.post.comments} />
           <PostActions
             isAuthor={this.state.isUserAuthourOfPost}
@@ -96,6 +111,7 @@ const mapStateToProps = (state) => ({
   post: state.post.post,
   currentUserId: state.auth.user.id,
   postCreatedByUser: state.post.post.user,
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, {

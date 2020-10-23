@@ -23,6 +23,7 @@ class PostForm extends Component {
   onFormSubmit = (e) => {
     e.preventDefault();
     this.props.createPost(this.state.text);
+    this.setState({ text: '' });
   };
 
   onInputChange = (e) => {

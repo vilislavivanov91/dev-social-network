@@ -24,6 +24,7 @@ class CommentForm extends Component {
     e.preventDefault();
     const commentData = { text: this.state.text };
     this.props.addComment(commentData, this.props.post._id);
+    this.setState({ text: '' });
   };
 
   onInputChange = (e) => {
@@ -53,6 +54,7 @@ class CommentForm extends Component {
 }
 const mapStateToProps = (state) => ({
   post: state.post.post,
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, { addComment })(CommentForm);

@@ -48,10 +48,12 @@ export const createPost = (text) => {
       .post('api/post', { text })
       .then((response) => {
         dispatch(addPost(response.data));
+        // Clear errors
+        dispatch({ type: SET_ERRORS, payload: {} });
       })
       .catch((err) => {
         dispatch({ type: LOADING_POSTS_FINISH });
-        dispatch({ type: SET_ERRORS, payload: err });
+        dispatch({ type: SET_ERRORS, payload: err.response.data });
       });
   };
 };
@@ -90,16 +92,18 @@ export const deletePost = (postId, history) => {
 
 export const addComment = (commentData, postId) => {
   return (dispatch) => {
-    dispatch({ type: LOADING_POSTS });
+    dispatch({ type: LOADING_COMMENT });
 
     axios
       .post(`/api/post/comment/${postId}`, commentData)
       .then((response) => {
         dispatch(setSinglePost(response.data));
+        // Clear errors
+        dispatch({ type: SET_ERRORS, payload: {} });
       })
       .catch((err) => {
-        dispatch({ type: LOADING_POSTS_FINISH });
-        dispatch({ type: SET_ERRORS, payload: err });
+        dispatch({ type: LOADING_COMMENT_FINISH });
+        dispatch({ type: SET_ERRORS, payload: err.response.data });
       });
   };
 };
@@ -115,7 +119,7 @@ export const likePost = (postId) => {
       })
       .catch((err) => {
         dispatch({ type: LOADING_POSTS_FINISH });
-        dispatch({ type: SET_ERRORS, payload: err });
+        dispatch({ type: SET_ERRORS, payload: err.response.data });
       });
   };
 };
@@ -126,11 +130,13 @@ export const unlikePost = (postId) => {
     axios
       .post(`/api/post/unlike/${postId}`)
       .then((response) => {
+        // Clear the errors in case user clicked more then once on like button and it will dispatch an error action
+        dispatch({ type: SET_ERRORS, payload: {} });
         dispatch(setSinglePost(response.data));
       })
       .catch((err) => {
         dispatch({ type: LOADING_POSTS_FINISH });
-        dispatch({ type: SET_ERRORS, payload: err });
+        dispatch({ type: SET_ERRORS, payload: err.response.data });
       });
   };
 };
