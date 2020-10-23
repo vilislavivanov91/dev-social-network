@@ -7,7 +7,12 @@ import Spinner from '../common/Spinner';
 import PostActions from './PostActions';
 import CommentForm from '../comment/CommentForm';
 import CommentList from '../comment/CommentList';
-import { getSinglePost, deletePost } from '../../actions/post';
+import {
+  getSinglePost,
+  deletePost,
+  likePost,
+  unlikePost,
+} from '../../actions/post';
 
 class Post extends Component {
   state = {
@@ -44,6 +49,12 @@ class Post extends Component {
       this.props.deletePost(this.props.post._id, this.props.history);
     }
   };
+  likePost = () => {
+    this.props.likePost(this.props.post._id);
+  };
+  unlikePost = () => {
+    this.props.unlikePost(this.props.post._id);
+  };
 
   render() {
     let dispayPost;
@@ -61,11 +72,14 @@ class Post extends Component {
             Created at{' '}
             <Moment data={this.props.post.date} format="DD/MM/YYYY" />
           </p>
+          <p>Likes: {this.props.post.likes.length}</p>
           <CommentList comments={this.props.post.comments} />
           <PostActions
             isAuthor={this.state.isUserAuthourOfPost}
             onAddCommentClick={this.toggleShowCommentForm}
             onDeleteClick={this.deletePost}
+            onLikeClicked={this.likePost}
+            onUnlikeClicked={this.unlikePost}
           />
           {this.state.showCommentForm && <CommentForm />}
           <hr />
@@ -84,6 +98,9 @@ const mapStateToProps = (state) => ({
   postCreatedByUser: state.post.post.user,
 });
 
-export default connect(mapStateToProps, { getSinglePost, deletePost })(
-  withRouter(Post)
-);
+export default connect(mapStateToProps, {
+  getSinglePost,
+  deletePost,
+  likePost,
+  unlikePost,
+})(withRouter(Post));

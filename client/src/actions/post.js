@@ -104,6 +104,37 @@ export const addComment = (commentData, postId) => {
   };
 };
 
+export const likePost = (postId) => {
+  return (dispatch) => {
+    dispatch({ type: LOADING_POSTS });
+
+    axios
+      .post(`/api/post/like/${postId}`)
+      .then((response) => {
+        dispatch(setSinglePost(response.data));
+      })
+      .catch((err) => {
+        dispatch({ type: LOADING_POSTS_FINISH });
+        dispatch({ type: SET_ERRORS, payload: err });
+      });
+  };
+};
+
+export const unlikePost = (postId) => {
+  return (dispatch) => {
+    dispatch({ type: LOADING_POSTS });
+    axios
+      .post(`/api/post/unlike/${postId}`)
+      .then((response) => {
+        dispatch(setSinglePost(response.data));
+      })
+      .catch((err) => {
+        dispatch({ type: LOADING_POSTS_FINISH });
+        dispatch({ type: SET_ERRORS, payload: err });
+      });
+  };
+};
+
 export const setSinglePost = (post) => ({
   type: SET_SINGLE_POST,
   payload: post,
