@@ -141,6 +141,21 @@ export const unlikePost = (postId) => {
   };
 };
 
+export const deleteComment = (postId, commentId) => {
+  return (dispatch) => {
+    dispatch({ type: LOADING_COMMENT });
+    axios
+      .delete(`/api/post/comment/${postId}/${commentId}`)
+      .then((response) => {
+        dispatch(setSinglePost(response.data));
+      })
+      .catch((err) => {
+        dispatch({ type: LOADING_POSTS_FINISH });
+        dispatch({ type: SET_ERRORS, payload: err.response.data });
+      });
+  };
+};
+
 export const setSinglePost = (post) => ({
   type: SET_SINGLE_POST,
   payload: post,

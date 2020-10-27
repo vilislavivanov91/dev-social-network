@@ -17,7 +17,7 @@ class Posts extends Component {
     if (this.props.loading || !this.props.posts) {
       dispayPosts = <Spinner />;
     } else if (this.props.posts.length === 0) {
-      dispayPosts = <p>There is no posts</p>;
+      dispayPosts = <p>There are no posts</p>;
     } else {
       dispayPosts = this.props.posts.map((post) => (
         <PostItem key={post._id} post={post} />

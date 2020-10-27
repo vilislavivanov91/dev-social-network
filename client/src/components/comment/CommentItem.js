@@ -1,7 +1,7 @@
 import React from 'react';
 import Moment from 'react-moment';
 
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment, onDeleteClicked, isUserAuthorOfComment }) => {
   return (
     <div className="border p-3 m-1">
       <p>{comment.text}</p>
@@ -9,6 +9,9 @@ const CommentItem = ({ comment }) => {
       <p>
         Created at <Moment data={comment.date} format="DD/MM/YYYY" />
       </p>
+      {isUserAuthorOfComment ? (
+        <button onClick={onDeleteClicked}>Delete</button>
+      ) : null}
     </div>
   );
 };

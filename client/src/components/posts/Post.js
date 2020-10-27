@@ -12,6 +12,7 @@ import {
   deletePost,
   likePost,
   unlikePost,
+  deleteComment,
 } from '../../actions/post';
 
 class Post extends Component {
@@ -67,6 +68,9 @@ class Post extends Component {
   unlikePost = () => {
     this.props.unlikePost(this.props.post._id);
   };
+  deleteComment = (commentId) => {
+    this.props.deleteComment(this.props.post._id, commentId);
+  };
 
   render() {
     let dispayPost;
@@ -88,7 +92,10 @@ class Post extends Component {
           {Object.keys(this.state.errors).length > 0 && (
             <p>Error: {this.state.errors.error}</p>
           )}
-          <CommentList comments={this.props.post.comments} />
+          <CommentList
+            comments={this.props.post.comments}
+            deleteComment={this.deleteComment}
+          />
           <PostActions
             isAuthor={this.state.isUserAuthourOfPost}
             onAddCommentClick={this.toggleShowCommentForm}
@@ -119,4 +126,5 @@ export default connect(mapStateToProps, {
   deletePost,
   likePost,
   unlikePost,
+  deleteComment,
 })(withRouter(Post));

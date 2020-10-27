@@ -1,13 +1,20 @@
 import React from 'react';
 import CommentItem from './CommentItem';
 
-const CommentList = ({ comments }) => {
+import { connect } from 'react-redux';
+
+const CommentList = ({ comments, deleteComment, currentLoggedInUser }) => {
   let displayComment;
   if (comments.length === 0) {
     displayComment = null;
   } else {
     displayComment = comments.map((comment) => (
-      <CommentItem key={comment._id} comment={comment} />
+      <CommentItem
+        key={comment._id}
+        comment={comment}
+        onDeleteClicked={() => deleteComment(comment._id)}
+        isUserAuthorOfComment={comment.user === currentLoggedInUser}
+      />
     ));
   }
   return (
@@ -18,4 +25,8 @@ const CommentList = ({ comments }) => {
   );
 };
 
-export default CommentList;
+const mapStateToProps = (state) => ({
+  currentLoggedInUser: state.auth.user.id,
+});
+
+export default connect(mapStateToProps)(CommentList);
