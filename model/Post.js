@@ -4,46 +4,50 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
   text: {
     type: String,
-    required: true
+    required: true,
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'users',
   },
   userEmail: {
-    type: String  //Add avatar in case avatar is added in user collection. If user is deleted post will stay
+    type: String, //Add avatar in case avatar is added in user collection. If user is deleted post will stay
+  },
+  userHandle: {
+    type: String,
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   likes: [
     {
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
-      }
-    }
+        ref: 'users',
+      },
+    },
   ],
   comments: [
     {
       text: {
         type: String,
-        required: true
+        required: true,
       },
       user: {
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'users',
       },
       userEmail: {
-        type: String
+        type: String,
       },
       date: {
         type: Date,
-        default: Date.now
-      }
-    }
-  ]
-})
+        default: Date.now,
+      },
+    },
+  ],
+});
 
 module.exports = mongoose.model('posts', PostSchema);
