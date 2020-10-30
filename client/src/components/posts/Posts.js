@@ -25,9 +25,13 @@ class Posts extends Component {
     }
 
     return (
-      <div>
-        <PostForm />
-        {dispayPosts}
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12">
+            <PostForm />
+            {dispayPosts}
+          </div>
+        </div>
       </div>
     );
   }

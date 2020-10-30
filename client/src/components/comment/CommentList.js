@@ -18,9 +18,13 @@ const CommentList = ({ comments, deleteComment, currentLoggedInUser }) => {
     ));
   }
   return (
-    <div>
-      <h2>Comments: </h2>
-      {displayComment}
+    <div className="container">
+      <div className="row">
+        <div className="col-md-12">
+          <h2>Comments: </h2>
+          {displayComment}
+        </div>
+      </div>
     </div>
   );
 };

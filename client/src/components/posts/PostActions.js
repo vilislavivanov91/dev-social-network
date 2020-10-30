@@ -1,19 +1,38 @@
 import React from 'react';
+import classnames from 'classnames';
 
 const PostActions = ({
   isAuthor,
   onDeleteClick,
-  onAddCommentClick,
   onLikeClicked,
   onUnlikeClicked,
+  likesCount,
+  isPostAlreadyLikedByCurrentUser,
 }) => {
   return (
-    <div>
-      <button onClick={onAddCommentClick}>Add comment</button>
-      {isAuthor && <button onClick={onDeleteClick}>Delete</button>}
-      <button onClick={onLikeClicked}>Like</button>
-      <button onClick={onUnlikeClicked}>Unlike</button>
-    </div>
+    <span>
+      <br />
+      {isAuthor && (
+        <button className="btn btn-danger mr-1" onClick={onDeleteClick}>
+          <i className="fas fa-times" />
+        </button>
+      )}
+      <button
+        disabled={isPostAlreadyLikedByCurrentUser}
+        className="btn btn-light mr-1"
+        onClick={onLikeClicked}
+      >
+        <i
+          className={classnames('fas fa-thumbs-up', {
+            'text-info': isPostAlreadyLikedByCurrentUser,
+          })}
+        />
+        <span className="badge badge-light">{likesCount}</span>
+      </button>
+      <button className="btn btn-light mr-1" onClick={onUnlikeClicked}>
+        <i className="text-secondary fas fa-thumbs-down" />
+      </button>
+    </span>
   );
 };
 
