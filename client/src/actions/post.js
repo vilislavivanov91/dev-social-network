@@ -11,6 +11,8 @@ import {
   SET_SINGLE_POST,
   DELETE_POST,
   ADD_COMMENT,
+  ADD_COMMENT_LIKE,
+  REMOVE_COMMENT_LIKE,
 } from './types';
 
 export const getAllPosts = () => {
@@ -115,7 +117,13 @@ export const likePost = (postId) => {
     axios
       .post(`/api/post/like/${postId}`)
       .then((response) => {
-        dispatch(setSinglePost(response.data));
+        dispatch({
+          type: ADD_COMMENT_LIKE,
+          payload: {
+            postId: postId,
+            post: response.data,
+          },
+        });
       })
       .catch((err) => {
         dispatch({ type: LOADING_POSTS_FINISH });
@@ -130,9 +138,13 @@ export const unlikePost = (postId) => {
     axios
       .post(`/api/post/unlike/${postId}`)
       .then((response) => {
-        // Clear the errors in case user clicked more then once on like button and it will dispatch an error action
-        dispatch({ type: SET_ERRORS, payload: {} });
-        dispatch(setSinglePost(response.data));
+        dispatch({
+          type: REMOVE_COMMENT_LIKE,
+          payload: {
+            postId: postId,
+            post: response.data,
+          },
+        });
       })
       .catch((err) => {
         dispatch({ type: LOADING_POSTS_FINISH });

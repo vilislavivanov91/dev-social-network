@@ -6,6 +6,8 @@ import {
   CREATE_POST,
   SET_SINGLE_POST,
   DELETE_POST,
+  ADD_COMMENT_LIKE,
+  REMOVE_COMMENT_LIKE,
 } from '../actions/types';
 
 const initialState = {
@@ -43,6 +45,12 @@ const postReducer = (state = initialState, action) => {
         loading: true,
       };
     }
+    case LOADING_POSTS_FINISH: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
     case CREATE_POST: {
       return {
         ...state,
@@ -58,10 +66,28 @@ const postReducer = (state = initialState, action) => {
         posts,
       };
     }
-    case LOADING_POSTS_FINISH: {
+    case ADD_COMMENT_LIKE: {
+      const updatedPosts = state.posts;
+      const postIndex = updatedPosts.findIndex(
+        (post) => post._id === action.payload.postId
+      );
+      updatedPosts[postIndex] = action.payload.post;
       return {
         ...state,
         loading: false,
+        posts: updatedPosts,
+      };
+    }
+    case REMOVE_COMMENT_LIKE: {
+      const updatedPosts = state.posts;
+      const postIndex = updatedPosts.findIndex(
+        (post) => post._id === action.payload.postId
+      );
+      updatedPosts[postIndex] = action.payload.post;
+      return {
+        ...state,
+        loading: false,
+        posts: updatedPosts,
       };
     }
     default:
